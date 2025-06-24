@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "associates",
+  "info": {
+    "singularName": "associate",
+    "pluralName": "associates",
+    "displayName": "Associate"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "URL": {
+      "type": "string"
+    }
+  }
+}

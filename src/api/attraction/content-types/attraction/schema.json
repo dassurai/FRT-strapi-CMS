@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attractions",
+  "info": {
+    "singularName": "attraction",
+    "pluralName": "attractions",
+    "displayName": "Attraction"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "destinations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destination.destination",
+      "inversedBy": "attractions"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "Type": {
+      "type": "enumeration",
+      "enum": [
+        "Beach",
+        "Mountain",
+        "National Park",
+        "Forest",
+        "River",
+        "Desert",
+        "Lake",
+        "Historical",
+        "Museum",
+        "Theatre",
+        "Market ",
+        "Theme-Park",
+        "Monument",
+        "Zoo"
+      ]
+    },
+    "Description": {
+      "type": "text"
+    },
+    "opens": {
+      "type": "time"
+    },
+    "Closes": {
+      "type": "time"
+    },
+    "Fee": {
+      "type": "string"
+    },
+    "Lattitude": {
+      "type": "float"
+    },
+    "Longitude": {
+      "type": "float"
+    },
+    "Media": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
+    }
+  }
+}

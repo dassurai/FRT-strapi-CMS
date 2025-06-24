@@ -26,6 +26,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "destinations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destination.destination",
+      "mappedBy": "categories"
     }
   }
 }
