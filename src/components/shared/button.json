@@ -1,17 +1,17 @@
 {
-  "collectionName": "components_shared_text_blocks",
+  "collectionName": "components_shared_buttons",
   "info": {
-    "displayName": "TextBlock"
+    "displayName": "Button"
   },
   "options": {},
   "attributes": {
     "Title": {
       "type": "string"
     },
-    "Description": {
-      "type": "blocks"
+    "Link": {
+      "type": "string"
     },
-    "Image": {
+    "Background": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
@@ -20,11 +20,6 @@
         "videos",
         "audios"
       ]
-    },
-    "CTA": {
-      "type": "component",
-      "component": "shared.button",
-      "repeatable": true
     }
   },
   "config": {}

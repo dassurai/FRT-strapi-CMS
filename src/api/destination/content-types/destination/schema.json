@@ -19,8 +19,43 @@
       "type": "string",
       "required": true
     },
+    "BestSeason": {
+      "type": "customField",
+      "customField": "plugin::multi-select.multi-select",
+      "default": "[]",
+      "options": [
+        "Winter (Dec-Feb)",
+        "Summer (Apr-June)",
+        "Monsoon (June–Sep)",
+        "Autumn (Oct-Dec)",
+        "Spring (Feb-Mar)"
+      ],
+      "min": 1
+    },
     "Description": {
       "type": "blocks"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "destinations"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "destinations"
+    },
+    "Media": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
     },
     "Region": {
       "type": "string"
@@ -78,40 +113,11 @@
       "type": "float",
       "required": true
     },
-    "categories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::category.category",
-      "inversedBy": "destinations"
-    },
-    "Media": {
-      "type": "media",
-      "multiple": true,
-      "required": true,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ]
-    },
     "attractions": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::attraction.attraction",
       "mappedBy": "destinations"
-    },
-    "BestSeason": {
-      "type": "customField",
-      "customField": "plugin::multi-select.multi-select",
-      "default": "[]",
-      "options": [
-        "Winter (DEC-FEB)",
-        "Summer (APR-JUNE)",
-        "Monsoon (JUNE - SEP)",
-        "Autumn (OCT-DEC)",
-        "Spring: (FEB-MARCH)"
-      ],
-      "min": 1
     }
   }
 }

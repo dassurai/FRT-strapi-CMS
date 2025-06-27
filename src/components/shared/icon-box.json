@@ -1,17 +1,11 @@
 {
-  "collectionName": "components_shared_text_blocks",
+  "collectionName": "components_shared_icon_boxes",
   "info": {
-    "displayName": "TextBlock"
+    "displayName": "Icon Box"
   },
   "options": {},
   "attributes": {
-    "Title": {
-      "type": "string"
-    },
-    "Description": {
-      "type": "blocks"
-    },
-    "Image": {
+    "icon": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
@@ -21,10 +15,16 @@
         "audios"
       ]
     },
-    "CTA": {
+    "Title": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "button": {
       "type": "component",
       "component": "shared.button",
-      "repeatable": true
+      "repeatable": false
     }
   },
   "config": {}

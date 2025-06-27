@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "help_topics",
+  "info": {
+    "singularName": "help-topic",
+    "pluralName": "help-topics",
+    "displayName": "Help Topic"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Name"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "help_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::help-tag.help-tag",
+      "mappedBy": "help_topics"
+    },
+    "help_articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::help-article.help-article",
+      "mappedBy": "help_topic"
+    }
+  }
+}

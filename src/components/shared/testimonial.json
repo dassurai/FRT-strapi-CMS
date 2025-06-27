@@ -1,15 +1,15 @@
 {
-  "collectionName": "components_shared_text_blocks",
+  "collectionName": "components_shared_testimonials",
   "info": {
-    "displayName": "TextBlock"
+    "displayName": "Testimonial"
   },
   "options": {},
   "attributes": {
-    "Title": {
+    "MessageFrom": {
       "type": "string"
     },
-    "Description": {
-      "type": "blocks"
+    "Message": {
+      "type": "string"
     },
     "Image": {
       "type": "media",
@@ -21,10 +21,8 @@
         "audios"
       ]
     },
-    "CTA": {
-      "type": "component",
-      "component": "shared.button",
-      "repeatable": true
+    "translated": {
+      "type": "string"
     }
   },
   "config": {}

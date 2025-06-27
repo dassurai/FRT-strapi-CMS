@@ -410,36 +410,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAboutAbout extends Struct.SingleTypeSchema {
-  collectionName: 'abouts';
-  info: {
-    description: 'Write about yourself and the content you create';
-    displayName: 'About';
-    pluralName: 'abouts';
-    singularName: 'about';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    blocks: Schema.Attribute.DynamicZone<
-      ['shared.media', 'shared.quote', 'shared.rich-text', 'shared.slider']
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.RichText;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::about.about'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -454,7 +424,17 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   attributes: {
     author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
     blocks: Schema.Attribute.DynamicZone<
-      ['shared.media', 'shared.quote', 'shared.rich-text', 'shared.slider']
+      [
+        'shared.media',
+        'shared.quote',
+        'shared.rich-text',
+        'shared.slider',
+        'shared.icon-box',
+        'shared.faq',
+        'shared.button',
+        'shared.adblock',
+        'shared.text-block',
+      ]
     >;
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
@@ -473,6 +453,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -654,11 +635,11 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
       Schema.Attribute.CustomField<
         'plugin::multi-select.multi-select',
         [
-          'Winter (DEC-FEB)',
-          'Summer (APR-JUNE)',
-          'Monsoon (JUNE - SEP)',
-          'Autumn (OCT-DEC)',
-          'Spring: (FEB-MARCH)',
+          'Winter (Dec-Feb)',
+          'Summer (Apr-June)',
+          'Monsoon (June\u2013Sep)',
+          'Autumn (Oct-Dec)',
+          'Spring (Feb-Mar)',
         ]
       > &
       Schema.Attribute.SetMinMax<
@@ -731,6 +712,7 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
         'West Bengal',
       ]
     >;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -766,6 +748,207 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHelpArticleHelpArticle extends Struct.CollectionTypeSchema {
+  collectionName: 'help_articles';
+  info: {
+    displayName: 'Help Article';
+    pluralName: 'help-articles';
+    singularName: 'help-article';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    author: Schema.Attribute.Relation<'oneToOne', 'api::author.author'>;
+    Content: Schema.Attribute.Blocks;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Featured: Schema.Attribute.Enumeration<['Yes', 'No']> &
+      Schema.Attribute.DefaultTo<'No'>;
+    help_article: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::help-article.help-article'
+    >;
+    help_articles: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::help-article.help-article'
+    >;
+    help_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::help-tag.help-tag'
+    >;
+    help_topic: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::help-topic.help-topic'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::help-article.help-article'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Slug: Schema.Attribute.UID<'Title'>;
+    Summery: Schema.Attribute.Text;
+    Title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHelpTagHelpTag extends Struct.CollectionTypeSchema {
+  collectionName: 'help_tags';
+  info: {
+    displayName: 'Help Tag';
+    pluralName: 'help-tags';
+    singularName: 'help-tag';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Description: Schema.Attribute.Text;
+    help_articles: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::help-article.help-article'
+    >;
+    help_topics: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::help-topic.help-topic'
+    >;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::help-tag.help-tag'
+    > &
+      Schema.Attribute.Private;
+    Name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    Slug: Schema.Attribute.UID<'Name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHelpTopicHelpTopic extends Struct.CollectionTypeSchema {
+  collectionName: 'help_topics';
+  info: {
+    displayName: 'Help Topic';
+    pluralName: 'help-topics';
+    singularName: 'help-topic';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Description: Schema.Attribute.Text;
+    help_articles: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::help-article.help-article'
+    >;
+    help_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::help-tag.help-tag'
+    >;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::help-topic.help-topic'
+    > &
+      Schema.Attribute.Private;
+    Name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    Slug: Schema.Attribute.UID<'Name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHostingHosting extends Struct.SingleTypeSchema {
+  collectionName: 'hostings';
+  info: {
+    displayName: 'Hosting';
+    pluralName: 'hostings';
+    singularName: 'hosting';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Blocks: Schema.Attribute.Component<'shared.adblock', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Faqs: Schema.Attribute.Component<'shared.faq', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Features: Schema.Attribute.Component<'shared.icon-box', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Hero: Schema.Attribute.Component<'shared.text-block', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::hosting.hosting'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    SEO: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Testimonial: Schema.Attribute.Component<'shared.testimonial', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    WhyHosting: Schema.Attribute.DynamicZone<['shared.icon-box']> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
   };
 }
 
@@ -825,6 +1008,39 @@ export interface ApiPolicyPolicy extends Struct.CollectionTypeSchema {
     Section: Schema.Attribute.DynamicZone<['shared.text-block']>;
     slug: Schema.Attribute.UID<'Title'>;
     Title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTagTag extends Struct.CollectionTypeSchema {
+  collectionName: 'tags';
+  info: {
+    displayName: 'Tag';
+    pluralName: 'tags';
+    singularName: 'tag';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destinations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::destination.destination'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    tagdescription: Schema.Attribute.String;
+    tagimage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    tagname: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -964,6 +1180,108 @@ export interface PluginI18NLocale extends Struct.CollectionTypeSchema {
         number
       >;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface PluginReactionsReaction extends Struct.CollectionTypeSchema {
+  collectionName: 'vl_reactions';
+  info: {
+    description: 'Reactions per Content Type';
+    displayName: 'Reactions';
+    name: 'Reaction';
+    pluralName: 'reactions';
+    singularName: 'reaction';
+  };
+  options: {
+    draftAndPublish: false;
+    privateAttributes: ['relatedUid'];
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: true;
+    };
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    kind: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::reactions.reaction-type'
+    > &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::reactions.reaction'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    related: Schema.Attribute.Relation<'morphToMany'> &
+      Schema.Attribute.Required;
+    relatedUid: Schema.Attribute.Text & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface PluginReactionsReactionType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'vl_reactions_types';
+  info: {
+    description: 'Type of Reaction';
+    displayName: 'Reaction Type';
+    name: 'Reaction Type';
+    pluralName: 'reaction-types';
+    singularName: 'reaction-type';
+  };
+  options: {
+    draftAndPublish: false;
+    privateAttributes: ['createdAt', 'updatedAt'];
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emoji: Schema.Attribute.Text;
+    emojiFallbackUrl: Schema.Attribute.Text;
+    icon: Schema.Attribute.Media;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::reactions.reaction-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.Text & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::reactions.reaction'
+    >;
+    slug: Schema.Attribute.UID &
+      Schema.Attribute.Unique &
+      Schema.Attribute.DefaultTo<false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1341,7 +1659,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::about.about': ApiAboutAbout;
       'api::article.article': ApiArticleArticle;
       'api::associate.associate': ApiAssociateAssociate;
       'api::attraction.attraction': ApiAttractionAttraction;
@@ -1349,11 +1666,18 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::destination.destination': ApiDestinationDestination;
       'api::global.global': ApiGlobalGlobal;
+      'api::help-article.help-article': ApiHelpArticleHelpArticle;
+      'api::help-tag.help-tag': ApiHelpTagHelpTag;
+      'api::help-topic.help-topic': ApiHelpTopicHelpTopic;
+      'api::hosting.hosting': ApiHostingHosting;
       'api::member.member': ApiMemberMember;
       'api::policy.policy': ApiPolicyPolicy;
+      'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::reactions.reaction': PluginReactionsReaction;
+      'plugin::reactions.reaction-type': PluginReactionsReactionType;
       'plugin::review-workflows.workflow': PluginReviewWorkflowsWorkflow;
       'plugin::review-workflows.workflow-stage': PluginReviewWorkflowsWorkflowStage;
       'plugin::upload.file': PluginUploadFile;

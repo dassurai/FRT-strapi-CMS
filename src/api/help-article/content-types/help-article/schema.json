@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "help_articles",
+  "info": {
+    "singularName": "help-article",
+    "pluralName": "help-articles",
+    "displayName": "Help Article"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Title"
+    },
+    "Featured": {
+      "type": "enumeration",
+      "default": "No",
+      "enum": [
+        "Yes",
+        "No"
+      ]
+    },
+    "Content": {
+      "type": "blocks"
+    },
+    "Summery": {
+      "type": "text"
+    },
+    "help_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::help-tag.help-tag",
+      "inversedBy": "help_articles"
+    },
+    "help_topic": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::help-topic.help-topic",
+      "inversedBy": "help_articles"
+    },
+    "help_articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::help-article.help-article",
+      "mappedBy": "help_article"
+    },
+    "help_article": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::help-article.help-article",
+      "inversedBy": "help_articles"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::author.author"
+    }
+  }
+}

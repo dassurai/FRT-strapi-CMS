@@ -1,0 +1,90 @@
+{
+  "kind": "singleType",
+  "collectionName": "hostings",
+  "info": {
+    "singularName": "hosting",
+    "pluralName": "hostings",
+    "displayName": "Hosting"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "SEO": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.seo",
+      "repeatable": false
+    },
+    "Hero": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.text-block",
+      "repeatable": false
+    },
+    "WhyHosting": {
+      "type": "dynamiczone",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "components": [
+        "shared.icon-box"
+      ]
+    },
+    "Testimonial": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.testimonial",
+      "repeatable": false
+    },
+    "Features": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.icon-box",
+      "repeatable": true
+    },
+    "Blocks": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.adblock",
+      "repeatable": true
+    },
+    "Faqs": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.faq",
+      "repeatable": true
+    }
+  }
+}

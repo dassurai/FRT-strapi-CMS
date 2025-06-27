@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "help_tags",
+  "info": {
+    "singularName": "help-tag",
+    "pluralName": "help-tags",
+    "displayName": "Help Tag"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Name"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "help_topics": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::help-topic.help-topic",
+      "inversedBy": "help_tags"
+    },
+    "help_articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::help-article.help-article",
+      "mappedBy": "help_tags"
+    }
+  }
+}

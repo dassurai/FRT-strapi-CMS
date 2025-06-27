@@ -12,6 +12,16 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "mappedBy": "articles"
+    },
     "title": {
       "type": "string"
     },
@@ -19,9 +29,11 @@
       "type": "text",
       "maxLength": 80
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "title"
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "articles"
     },
     "cover": {
       "type": "media",
@@ -39,19 +51,18 @@
       "target": "api::author.author",
       "inversedBy": "articles"
     },
-    "category": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "articles"
-    },
     "blocks": {
       "type": "dynamiczone",
       "components": [
         "shared.media",
         "shared.quote",
         "shared.rich-text",
-        "shared.slider"
+        "shared.slider",
+        "shared.icon-box",
+        "shared.faq",
+        "shared.button",
+        "shared.adblock",
+        "shared.text-block"
       ]
     }
   }

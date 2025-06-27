@@ -1,14 +1,67 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedAdblock extends Struct.ComponentSchema {
+  collectionName: 'components_shared_adblocks';
+  info: {
+    displayName: 'Adblock';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'shared.button', false>;
+    Link: Schema.Attribute.String;
+    Media: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    Message: Schema.Attribute.String;
+    Title: Schema.Attribute.String;
+  };
+}
+
+export interface SharedButton extends Struct.ComponentSchema {
+  collectionName: 'components_shared_buttons';
+  info: {
+    displayName: 'Button';
+  };
+  attributes: {
+    Background: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    Link: Schema.Attribute.String;
+    Title: Schema.Attribute.String;
+  };
+}
+
+export interface SharedFaq extends Struct.ComponentSchema {
+  collectionName: 'components_shared_faqs';
+  info: {
+    displayName: 'Faq';
+  };
+  attributes: {
+    Answer: Schema.Attribute.Blocks;
+    Question: Schema.Attribute.String;
+  };
+}
+
+export interface SharedIconBox extends Struct.ComponentSchema {
+  collectionName: 'components_shared_icon_boxes';
+  info: {
+    displayName: 'Icon Box';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'shared.button', false>;
+    Description: Schema.Attribute.Blocks;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    Title: Schema.Attribute.String;
+  };
+}
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
     displayName: 'Media';
     icon: 'file-video';
   };
-  attributes: {
-    file: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
-  };
+  attributes: {};
 }
 
 export interface SharedQuote extends Struct.ComponentSchema {
@@ -62,13 +115,28 @@ export interface SharedSlider extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedTestimonial extends Struct.ComponentSchema {
+  collectionName: 'components_shared_testimonials';
+  info: {
+    displayName: 'Testimonial';
+  };
+  attributes: {
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    Message: Schema.Attribute.String;
+    MessageFrom: Schema.Attribute.String;
+    translated: Schema.Attribute.String;
+  };
+}
+
 export interface SharedTextBlock extends Struct.ComponentSchema {
   collectionName: 'components_shared_text_blocks';
   info: {
     displayName: 'TextBlock';
   };
   attributes: {
+    CTA: Schema.Attribute.Component<'shared.button', true>;
     Description: Schema.Attribute.Blocks;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     Title: Schema.Attribute.String;
   };
 }
@@ -76,11 +144,16 @@ export interface SharedTextBlock extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.adblock': SharedAdblock;
+      'shared.button': SharedButton;
+      'shared.faq': SharedFaq;
+      'shared.icon-box': SharedIconBox;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
       'shared.seo': SharedSeo;
       'shared.slider': SharedSlider;
+      'shared.testimonial': SharedTestimonial;
       'shared.text-block': SharedTextBlock;
     }
   }

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_faqs",
+  "info": {
+    "displayName": "Faq"
+  },
+  "options": {},
+  "attributes": {
+    "Question": {
+      "type": "string"
+    },
+    "Answer": {
+      "type": "blocks"
+    }
+  },
+  "config": {}
+}
