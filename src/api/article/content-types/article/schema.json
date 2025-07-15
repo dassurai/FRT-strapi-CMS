@@ -16,22 +16,17 @@
       "type": "uid",
       "targetField": "title"
     },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "mappedBy": "articles"
-    },
     "title": {
       "type": "string"
     },
     "description": {
       "type": "text",
-      "maxLength": 80
+      "minLength": 100,
+      "maxLength": 200
     },
-    "category": {
+    "categories": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "articles"
     },
@@ -56,13 +51,12 @@
       "components": [
         "shared.media",
         "shared.quote",
-        "shared.rich-text",
-        "shared.slider",
         "shared.icon-box",
         "shared.faq",
         "shared.button",
         "shared.adblock",
-        "shared.text-block"
+        "shared.text-block",
+        "shared.rich-text"
       ]
     }
   }

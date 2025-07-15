@@ -427,23 +427,26 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       [
         'shared.media',
         'shared.quote',
-        'shared.rich-text',
-        'shared.slider',
         'shared.icon-box',
         'shared.faq',
         'shared.button',
         'shared.adblock',
         'shared.text-block',
+        'shared.rich-text',
       ]
     >;
-    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    categories: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::category.category'
+    >;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 80;
+        maxLength: 200;
+        minLength: 100;
       }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -453,7 +456,6 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;
-    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -592,15 +594,11 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
-    destinations: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::destination.destination'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -649,15 +647,15 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<'[]'>;
-    categories: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::category.category'
-    >;
     Country: Schema.Attribute.String & Schema.Attribute.DefaultTo<'INDIA'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     Description: Schema.Attribute.Blocks;
+    destination_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::place-tag.place-tag'
+    >;
     Lattitude: Schema.Attribute.Float & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -712,7 +710,6 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
         'West Bengal',
       ]
     >;
-    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -764,6 +761,7 @@ export interface ApiHelpArticleHelpArticle extends Struct.CollectionTypeSchema {
   attributes: {
     author: Schema.Attribute.Relation<'oneToOne', 'api::author.author'>;
     Content: Schema.Attribute.Blocks;
+    Cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -785,6 +783,7 @@ export interface ApiHelpArticleHelpArticle extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::help-topic.help-topic'
     >;
+    Keyword: Schema.Attribute.JSON;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -833,7 +832,7 @@ export interface ApiHelpTagHelpTag extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    Slug: Schema.Attribute.UID<'Name'>;
+    slug: Schema.Attribute.UID<'Name'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -983,6 +982,40 @@ export interface ApiMemberMember extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPlaceTagPlaceTag extends Struct.CollectionTypeSchema {
+  collectionName: 'place_tags';
+  info: {
+    displayName: 'Destination Tag';
+    pluralName: 'place-tags';
+    singularName: 'place-tag';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    destinations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::destination.destination'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::place-tag.place-tag'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPolicyPolicy extends Struct.CollectionTypeSchema {
   collectionName: 'policies';
   info: {
@@ -1008,39 +1041,6 @@ export interface ApiPolicyPolicy extends Struct.CollectionTypeSchema {
     Section: Schema.Attribute.DynamicZone<['shared.text-block']>;
     slug: Schema.Attribute.UID<'Title'>;
     Title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTagTag extends Struct.CollectionTypeSchema {
-  collectionName: 'tags';
-  info: {
-    displayName: 'Tag';
-    pluralName: 'tags';
-    singularName: 'tag';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    destinations: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::destination.destination'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.String;
-    tagdescription: Schema.Attribute.String;
-    tagimage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    tagname: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1671,8 +1671,8 @@ declare module '@strapi/strapi' {
       'api::help-topic.help-topic': ApiHelpTopicHelpTopic;
       'api::hosting.hosting': ApiHostingHosting;
       'api::member.member': ApiMemberMember;
+      'api::place-tag.place-tag': ApiPlaceTagPlaceTag;
       'api::policy.policy': ApiPolicyPolicy;
-      'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

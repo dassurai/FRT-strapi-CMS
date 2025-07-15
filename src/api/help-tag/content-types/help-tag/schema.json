@@ -14,7 +14,7 @@
     "Name": {
       "type": "string"
     },
-    "Slug": {
+    "slug": {
       "type": "uid",
       "targetField": "Name"
     },

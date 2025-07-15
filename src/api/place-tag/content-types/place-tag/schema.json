@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "place_tags",
+  "info": {
+    "singularName": "place-tag",
+    "pluralName": "place-tags",
+    "displayName": "Destination Tag"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "destinations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destination.destination",
+      "mappedBy": "destination_tags"
+    }
+  }
+}

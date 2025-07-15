@@ -11,12 +11,25 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "Cover": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
     "Title": {
       "type": "string"
     },
     "Slug": {
       "type": "uid",
       "targetField": "Title"
+    },
+    "Keyword": {
+      "type": "json"
     },
     "Featured": {
       "type": "enumeration",

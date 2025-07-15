@@ -35,18 +35,6 @@
     "Description": {
       "type": "blocks"
     },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "inversedBy": "destinations"
-    },
-    "categories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::category.category",
-      "inversedBy": "destinations"
-    },
     "Media": {
       "type": "media",
       "multiple": true,
@@ -118,6 +106,12 @@
       "relation": "manyToMany",
       "target": "api::attraction.attraction",
       "mappedBy": "destinations"
+    },
+    "destination_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::place-tag.place-tag",
+      "inversedBy": "destinations"
     }
   }
 }
