@@ -7,11 +7,12 @@ export interface SharedAdblock extends Struct.ComponentSchema {
   };
   attributes: {
     button: Schema.Attribute.Component<'shared.button', false>;
-    Link: Schema.Attribute.String;
+    Link: Schema.Attribute.String & Schema.Attribute.Required;
     Media: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
-    >;
+    > &
+      Schema.Attribute.Required;
     Message: Schema.Attribute.String;
     Title: Schema.Attribute.String;
   };
@@ -143,6 +144,24 @@ export interface SharedTextBlock extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedTransport extends Struct.ComponentSchema {
+  collectionName: 'components_shared_transports';
+  info: {
+    displayName: 'Transport';
+    icon: 'plane';
+  };
+  attributes: {
+    location: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::strapi-location-picker.location-picker',
+        {
+          info: true;
+        }
+      >;
+    name: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -157,6 +176,7 @@ declare module '@strapi/strapi' {
       'shared.slider': SharedSlider;
       'shared.testimonial': SharedTestimonial;
       'shared.text-block': SharedTextBlock;
+      'shared.transport': SharedTransport;
     }
   }
 }

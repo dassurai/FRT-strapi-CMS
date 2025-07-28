@@ -14,6 +14,7 @@
     "Media": {
       "type": "media",
       "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -22,7 +23,8 @@
       ]
     },
     "Link": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "button": {
       "type": "component",

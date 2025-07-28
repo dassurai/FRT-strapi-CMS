@@ -93,13 +93,27 @@
       "type": "string",
       "default": "INDIA"
     },
-    "Lattitude": {
-      "type": "float",
-      "required": true
+    "Location": {
+      "type": "customField",
+      "customField": "plugin::strapi-location-picker.location-picker",
+      "options": {
+        "info": true
+      }
     },
-    "Longitude": {
-      "type": "float",
-      "required": true
+    "station": {
+      "type": "component",
+      "component": "shared.transport",
+      "repeatable": false
+    },
+    "airport": {
+      "type": "component",
+      "component": "shared.transport",
+      "repeatable": false
+    },
+    "busStand": {
+      "type": "component",
+      "component": "shared.transport",
+      "repeatable": false
     },
     "attractions": {
       "type": "relation",

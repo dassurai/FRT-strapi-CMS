@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_transports",
+  "info": {
+    "displayName": "Transport",
+    "icon": "plane"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::strapi-location-picker.location-picker",
+      "options": {
+        "info": true
+      }
+    }
+  },
+  "config": {}
+}

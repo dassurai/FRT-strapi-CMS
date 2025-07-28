@@ -410,6 +410,45 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAddBannerAddBanner extends Struct.CollectionTypeSchema {
+  collectionName: 'add_banners';
+  info: {
+    displayName: 'AddBanner';
+    pluralName: 'add-banners';
+    singularName: 'add-banner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::add-banner.add-banner'
+    > &
+      Schema.Attribute.Private;
+    Placement: Schema.Attribute.Enumeration<
+      [
+        'Home Hero left',
+        'Home Hero right',
+        'Home Body 01',
+        'Home Body 02',
+        'Home Body 03',
+        'Home Body 04',
+        'Home Body 05',
+      ]
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slide: Schema.Attribute.Component<'shared.adblock', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -625,6 +664,7 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    airport: Schema.Attribute.Component<'shared.transport', false>;
     attractions: Schema.Attribute.Relation<
       'manyToMany',
       'api::attraction.attraction'
@@ -647,6 +687,7 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<'[]'>;
+    busStand: Schema.Attribute.Component<'shared.transport', false>;
     Country: Schema.Attribute.String & Schema.Attribute.DefaultTo<'INDIA'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -656,14 +697,19 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
       'manyToMany',
       'api::place-tag.place-tag'
     >;
-    Lattitude: Schema.Attribute.Float & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::destination.destination'
     > &
       Schema.Attribute.Private;
-    Longitude: Schema.Attribute.Float & Schema.Attribute.Required;
+    Location: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::strapi-location-picker.location-picker',
+        {
+          info: true;
+        }
+      >;
     Media: Schema.Attribute.Media<'images' | 'files' | 'videos', true> &
       Schema.Attribute.Required;
     Name: Schema.Attribute.String & Schema.Attribute.Required;
@@ -710,6 +756,7 @@ export interface ApiDestinationDestination extends Struct.CollectionTypeSchema {
         'West Bengal',
       ]
     >;
+    station: Schema.Attribute.Component<'shared.transport', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1659,6 +1706,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::add-banner.add-banner': ApiAddBannerAddBanner;
       'api::article.article': ApiArticleArticle;
       'api::associate.associate': ApiAssociateAssociate;
       'api::attraction.attraction': ApiAttractionAttraction;
