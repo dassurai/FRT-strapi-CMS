@@ -35,6 +35,10 @@
     "Description": {
       "type": "blocks"
     },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
     "Media": {
       "type": "media",
       "multiple": true,
@@ -45,11 +49,33 @@
         "videos"
       ]
     },
+    "terrain": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "Mountain",
+        "Valley",
+        "Hill",
+        "Plateau",
+        "River-side",
+        "Beach",
+        "Lake",
+        "Waterbodies",
+        "Forest",
+        "Desert",
+        "Farm-land",
+        "Canyon"
+      ]
+    },
     "Region": {
+      "type": "string"
+    },
+    "District": {
       "type": "string"
     },
     "State": {
       "type": "enumeration",
+      "required": true,
       "enum": [
         "Andaman and Nicobar Islands",
         "Andhra Pradesh",
@@ -91,14 +117,8 @@
     },
     "Country": {
       "type": "string",
-      "default": "INDIA"
-    },
-    "Location": {
-      "type": "customField",
-      "customField": "plugin::strapi-location-picker.location-picker",
-      "options": {
-        "info": true
-      }
+      "default": "INDIA",
+      "required": true
     },
     "station": {
       "type": "component",

@@ -15,12 +15,6 @@
       "type": "uid",
       "required": true
     },
-    "destinations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::destination.destination",
-      "inversedBy": "attractions"
-    },
     "Name": {
       "type": "string"
     },
@@ -46,6 +40,10 @@
     "Description": {
       "type": "text"
     },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
     "opens": {
       "type": "time"
     },
@@ -55,12 +53,6 @@
     "Fee": {
       "type": "string"
     },
-    "Lattitude": {
-      "type": "float"
-    },
-    "Longitude": {
-      "type": "float"
-    },
     "Media": {
       "type": "media",
       "multiple": true,
@@ -69,6 +61,12 @@
         "files",
         "videos"
       ]
+    },
+    "destinations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destination.destination",
+      "inversedBy": "attractions"
     }
   }
 }

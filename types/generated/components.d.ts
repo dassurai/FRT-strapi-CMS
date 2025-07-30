@@ -152,12 +152,7 @@ export interface SharedTransport extends Struct.ComponentSchema {
   };
   attributes: {
     location: Schema.Attribute.JSON &
-      Schema.Attribute.CustomField<
-        'plugin::strapi-location-picker.location-picker',
-        {
-          info: true;
-        }
-      >;
+      Schema.Attribute.CustomField<'plugin::google-maps.location-picker'>;
     name: Schema.Attribute.String;
   };
 }

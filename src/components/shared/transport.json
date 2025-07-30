@@ -11,10 +11,7 @@
     },
     "location": {
       "type": "customField",
-      "customField": "plugin::strapi-location-picker.location-picker",
-      "options": {
-        "info": true
-      }
+      "customField": "plugin::google-maps.location-picker"
     }
   },
   "config": {}
